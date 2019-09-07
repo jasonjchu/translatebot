@@ -2,13 +2,21 @@
 const gcpProjectId = process.env.GCP_PROJ_ID
 const username = process.env.USER_NAME
 const paperkey = process.env.PAPERKEY
+let serviceAccount = require('./translatebot-d6e97-firebase-adminsdk-4zroe-742360124e.json');
 
 const Bot = require('keybase-bot')
 const {Translate} = require('@google-cloud/translate');
 var languageChooser = require('./language-chooser')
+const admin = require('firebase-admin');
 
 const bot = new Bot()
 const translate = new Translate({gcpProjectId})
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+
+let db = admin.firestore();
 
 // message router
 const onMessage = async (message) => {
@@ -35,7 +43,17 @@ const onMessage = async (message) => {
         break
     }
   } else if (message.content.type == 'reaction') {
-      languageChooser.chooseLanguage(bot, translate, message)
+      /*
+      Example usage of saving to userSettings/testUser:
+
+        let docRef = db.collection('userSettings').doc('testUser');
+        let setTest = docRef.set({
+          lang: 'XD'
+        });
+
+      */
+
+      languageChooser.chooseLanguage(bot, db, message)
   }
 }
 
