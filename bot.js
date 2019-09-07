@@ -20,39 +20,26 @@ let db = admin.firestore();
 
 // message router
 const onMessage = async (message) => {
-  const channel = message.channel
+  console.log(message)
+
   console.log(message)
   console.log(message.content.type)
   if (message.content.type == 'text') {
     const text = message.content.text.body
     const tokens = message.content.text.body.split(' ')
-    
-    console.log(tokens[0])
-    switch(tokens[0]) {
-      case '/language':
-        languageChooser.requestLanguage(bot, message)
-        break
-      case '/translate':
-        const sender = message.sender.username
-        console.log(sender)
-        db.collection('userSettings').doc(sender).get()
-          .then(async (doc) => {
-              const untranslated = text.substring(11)
-              const target = doc.data().lang
-              const [translation] = await translate.translate(untranslated, target);
-              console.log(`Text: ${text}`);
-              console.log(`Translation: ${translation}`);
-              bot.chat.send(channel, {body: translation})
-          })
-          .catch(async (err) => {
-            const untranslated = text.substring(11)
-            const target = 'en'
-            const [translation] = await translate.translate(untranslated, target);
-            console.log(`Text: ${text}`);
-            console.log(`Translation: ${translation}`);
-            bot.chat.send(channel, {body: translation})
-          });
-        break
+
+    if (text.charAt(0) == '/') {
+    	console.log(tokens[0])
+    	switch(tokens[0]) {
+    	  case '/language':
+    	    languageChooser.requestLanguage(bot, message)
+    	    break
+    	  case '/translate':
+	    doTranslate(message, db, translate, bot)
+    	    break
+    	}
+    } else {
+	doTranslate(message, db, translate, bot)
     }
   } else if (message.content.type == 'reaction') {
       /*
@@ -81,6 +68,30 @@ async function main() {
       console.error(error)
       shutDown()
     })
+}
+
+async function doTranslate(message, db, translate, bot) {
+  const sender = message.sender.username
+  const text = message.content.text.body
+  const channel = message.channel
+  console.log(sender)
+  db.collection('userSettings').doc(sender).get()
+    .then(async (doc) => {
+        const untranslated = text.charAt(0) == '/' ? text.substring(11) : text
+        const target = doc.data().lang
+        const [translation] = await translate.translate(untranslated, target);
+        console.log(`Text: ${text}`);
+        console.log(`Translation: ${translation}`);
+        bot.chat.send(channel, {body: translation})
+    })
+    .catch(async (err) => {
+      const untranslated = text.substring(11)
+      const target = 'en'
+      const [translation] = await translate.translate(untranslated, target);
+      console.log(`Text: ${text}`);
+      console.log(`Translation: ${translation}`);
+      bot.chat.send(channel, {body: translation})
+    });
 }
 
 function shutDown() {
