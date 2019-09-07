@@ -25,15 +25,16 @@ const onMessage = async (message) => {
         typeof languageChooser.requestLanguage(bot, message)
         break
     }
+    
+    const untranslated = text.substring(11)
+    const target = 'en'
+    const [translation] = await translate.translate(untranslated, target);
+    console.log(`Text: ${text}`);
+    console.log(`Translation: ${translation}`);
+    bot.chat.send(channel, {body: translation})
   } else if (message.content.type == 'reaction') {
       languageChooser.chooseLanguage(bot, translate, message)
   }
-  const untranslated = text.substring(11)
-  const target = 'en'
-  const [translation] = await translate.translate(untranslated, target);
-  console.log(`Text: ${text}`);
-  console.log(`Translation: ${translation}`);
-  bot.chat.send(channel, {body: translation})
 }
 
 async function main() {
