@@ -4,7 +4,7 @@ const {Translate} = require('@google-cloud/translate');
 module.exports = {
     chooseLanguage: function (bot, translate, message) {
       const reaction = message.content.reaction.b
-      
+
       var lang = "en"
       switch(reaction) {
           case ":flag-gb:":
@@ -31,20 +31,49 @@ module.exports = {
         case ":flag-by:":
             lang = "be"
             break;
-
+        case ":flag-bg:":
+            lang = "bg"
+            break;
+        case ":flag-ad:":
+            lang = "ca"
+            break;
+        case ":flag-cn:":
+            lang = "zh-CN"
+            break;
+        case ":flag-hk:":
+            lang = "zh-TW"
+            break;
+        case ":flag-fr:":
+            lang = "fr"
+            break;
+        case ":flag-de:":
+            lang = "de"
+            break;
+        case ":flag-gr:":
+            lang = "el"
+            break;
+        case ":flag-mx:":
+            lang = "es"
+            break;
+        case ":flag-rs:":
+            lang = "sr"
+            break;
+        case ":flag-ru:":
+            lang = "ru"
+            break;
         default:
           lang = "en"
           break;
       } 
 
-      console.log(lang)
+      bot.chat.send()
     },
     requestLanguage: function (bot, message) {
         console.log("salad") 
         const messageId = message.id
         console.log(messageId)
         const channel = message.channel
-        var flags = [":flag-gb:", ":flag-af:", ":flag-al:", ":flag-eg:", ":flag-az:", ":flag-ie:", ":flag-it:", ":flag-jp:", ":flag-kr:", ":flag-by:"]
+        var flags = [":flag-gb:", ":flag-af:", ":flag-al:", ":flag-eg:", ":flag-az:", ":flag-ie:", ":flag-it:", ":flag-jp:", ":flag-kr:", ":flag-by:", ":flag-bg:", ":flag-ad:", ":flag-cn:", ":flag-hk:", ":flag-fr:", ":flag-de:", ":flag-gr:", ":flag-mx:", ":flag-rs:", ":flag-ru:"]
         var i;
         bot.chat.send(channel, {body: "Select a language by clicking a flag"})
         for(i = 0; i<flags.length; i++){
