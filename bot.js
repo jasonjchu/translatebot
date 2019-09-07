@@ -17,13 +17,15 @@ const onMessage = async (message) => {
   console.log(message.content.type)
   if (message.content.type == 'text') {
     const text = message.content.text.body
-    const tokens = message.content.text.body.split()
+    const tokens = message.content.text.body.split(' ')
 
+    console.log(tokens[0])
     switch(tokens[0]) {
       case '/language':
         languageChooser.requestLanguage(bot, message)
         break
       case '/translate':
+        console.log('why')
         const untranslated = text.substring(11)
         const target = 'en'
         const [translation] = await translate.translate(untranslated, target);
