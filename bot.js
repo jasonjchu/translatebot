@@ -13,7 +13,6 @@ const translate = new Translate({gcpProjectId})
 // message router
 const onMessage = async (message) => {
   const channel = message.channel
-  
 
   console.log(message.content.type)
   if (message.content.type == 'text') {
@@ -26,17 +25,15 @@ const onMessage = async (message) => {
         typeof languageChooser.requestLanguage(bot, message)
         break
     }
-  }else{
-    typeof languageChooser.chooseLanguage(bot, message)
+  } else if (message.content.type == 'reaction') {
+      languageChooser.chooseLanguage(bot, translate, message)
   }
-/*
   const untranslated = text.substring(11)
   const target = 'en'
   const [translation] = await translate.translate(untranslated, target);
   console.log(`Text: ${text}`);
   console.log(`Translation: ${translation}`);
   bot.chat.send(channel, {body: translation})
-*/
 }
 
 async function main() {

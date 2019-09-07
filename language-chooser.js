@@ -3,21 +3,17 @@ const {Translate} = require('@google-cloud/translate');
 
 module.exports = {
     chooseLanguage: function (bot, translate, message) {
-    const reaction = message.content.reaction.b
+      bot = new Bot()
+      const channel = message.channel
+      const reaction = message.content.reaction.b
 
-    var lang = "en"
-    switch(reaction) {
-        case ":flag-gb:":
-            lang = "en"
-          break;
-        case ":flag-af:":
-            lang = "af"
-          break;
-        case ":flag-al:":
-            lang = "sq"
+      var lang = "en"
+      switch(reaction) {
+          case ":flag-gb:":
+              lang = "en"
             break;
-        case ":flag-eg:":
-            lang = "ar"
+          case ":flag-af:":
+              lang = "af"
             break;
         case "flag-az":
             lang = "az"
