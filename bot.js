@@ -21,12 +21,12 @@ let db = admin.firestore();
 // message router
 const onMessage = async (message) => {
   const channel = message.channel
-
+  console.log(message)
   console.log(message.content.type)
   if (message.content.type == 'text') {
     const text = message.content.text.body
     const tokens = message.content.text.body.split(' ')
-
+    
     console.log(tokens[0])
     switch(tokens[0]) {
       case '/language':

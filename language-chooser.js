@@ -1,3 +1,4 @@
+const username = process.env.USER_NAME
 const Bot = require('keybase-bot')
 const {Translate} = require('@google-cloud/translate');
 
@@ -62,27 +63,22 @@ module.exports = {
         case ":flag-ru:":
             lang = "ru"
             break;
-        default:
-          lang = "en"
-          break;
       } 
       let docRef = db.collection('userSettings').doc(message.sender.username);
-        console.log("70")
         let setTest = docRef.set({
           lang: lang
         });
       console.log(lang)
     },
     requestLanguage: function (bot, message) {
-        console.log("salad") 
         const messageId = message.id
+        var channel = message.sender.username + "," + username
         console.log(messageId)
-        const channel = message.channel
         var flags = [":flag-gb:", ":flag-af:", ":flag-al:", ":flag-eg:", ":flag-az:", ":flag-ie:", ":flag-it:", ":flag-jp:", ":flag-kr:", ":flag-by:", ":flag-bg:", ":flag-ad:", ":flag-cn:", ":flag-hk:", ":flag-fr:", ":flag-de:", ":flag-gr:", ":flag-mx:", ":flag-rs:", ":flag-ru:"]
         var i;
         bot.chat.send(channel, {body: "Select a language by clicking a flag"})
         for(i = 0; i<flags.length; i++){
-             bot.chat.react(channel, messageId+1, flags[i]).then(() => console.log('Reaction Sent'))
+            bot.chat.react(channel, messageId+1, flags[i]).then(() => console.log('Reaction Sent')) 
         }
     }
   };
