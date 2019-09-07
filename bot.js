@@ -33,13 +33,25 @@ const onMessage = async (message) => {
         languageChooser.requestLanguage(bot, message)
         break
       case '/translate':
-        console.log('why')
-        const untranslated = text.substring(11)
-        const target = 'en'
-        const [translation] = await translate.translate(untranslated, target);
-        console.log(`Text: ${text}`);
-        console.log(`Translation: ${translation}`);
-        bot.chat.send(channel, {body: translation})
+        const sender = message.sender.username
+        console.log(sender)
+        db.collection('userSettings').doc(sender).get()
+          .then(async (doc) => {
+              const untranslated = text.substring(11)
+              const target = doc.data().lang
+              const [translation] = await translate.translate(untranslated, target);
+              console.log(`Text: ${text}`);
+              console.log(`Translation: ${translation}`);
+              bot.chat.send(channel, {body: translation})
+          })
+          .catch(async (err) => {
+            const untranslated = text.substring(11)
+            const target = 'en'
+            const [translation] = await translate.translate(untranslated, target);
+            console.log(`Text: ${text}`);
+            console.log(`Translation: ${translation}`);
+            bot.chat.send(channel, {body: translation})
+          });
         break
     }
   } else if (message.content.type == 'reaction') {
