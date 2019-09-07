@@ -11,7 +11,6 @@ const translate = new Translate({gcpProjectId})
 
 const onMessage = async (message) => {
   const channel = message.channel
-  console.log(message)
   const text = message.content.text.body
   const untranslated = text.substring(11)
   const target = 'en'
