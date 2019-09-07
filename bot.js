@@ -11,10 +11,11 @@ const translate = new Translate({gcpProjectId})
 
 const onMessage = async (message) => {
   const channel = message.channel
+  console.log(message)
   const text = message.content.text.body
+  const untranslated = text.substring(11)
   const target = 'en'
   const [translation] = await translate.translate(untranslated, target);
-
   console.log(`Text: ${text}`);
   console.log(`Translation: ${translation}`);
   bot.chat.send(channel, {body: translation})
