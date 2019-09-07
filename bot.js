@@ -21,17 +21,17 @@ const onMessage = async (message) => {
 
     switch(tokens[0]) {
       case '/language':
-        console.log(languageChooser)
-        typeof languageChooser.requestLanguage(bot, message)
+        languageChooser.requestLanguage(bot, message)
+        break
+      case '/translate':
+        const untranslated = text.substring(11)
+        const target = 'en'
+        const [translation] = await translate.translate(untranslated, target);
+        console.log(`Text: ${text}`);
+        console.log(`Translation: ${translation}`);
+        bot.chat.send(channel, {body: translation})
         break
     }
-    
-    const untranslated = text.substring(11)
-    const target = 'en'
-    const [translation] = await translate.translate(untranslated, target);
-    console.log(`Text: ${text}`);
-    console.log(`Translation: ${translation}`);
-    bot.chat.send(channel, {body: translation})
   } else if (message.content.type == 'reaction') {
       languageChooser.chooseLanguage(bot, translate, message)
   }
