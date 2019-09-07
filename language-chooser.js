@@ -2,10 +2,10 @@ const Bot = require('keybase-bot')
 const {Translate} = require('@google-cloud/translate');
 
 module.exports = {
-    chooseLanguage: function (bot, translate, message) {
+    chooseLanguage: function (bot, db, message) {
     console.log("h")
     const reaction = message.content.reaction.b
-
+    console.log(message)
       var lang = "en"
       switch(reaction) {
           case ":flag-gb:":
@@ -66,7 +66,11 @@ module.exports = {
           lang = "en"
           break;
       } 
-
+      let docRef = db.collection('userSettings').doc(message.sender.username);
+        console.log("70")
+        let setTest = docRef.set({
+          lang: lang
+        });
       console.log(lang)
     },
     requestLanguage: function (bot, message) {
