@@ -5,7 +5,7 @@ const paperkey = process.env.PAPERKEY
 
 const Bot = require('keybase-bot')
 const {Translate} = require('@google-cloud/translate');
-const languageChooser = require('./language-chooser')
+var languageChooser = require('./language-chooser')
 
 const bot = new Bot()
 const translate = new Translate({gcpProjectId})
@@ -22,18 +22,20 @@ const onMessage = async (message) => {
     switch(tokens[0]) {
       case '/language':
         console.log(languageChooser)
-        languageChooser.requestLanguage(bot, message)
+        typeof languageChooser.requestLanguage(bot, message)
         break
     }
+  }else{
+    typeof languageChooser.chooseLanguage(bot, message)
   }
-/*
+
   const untranslated = text.substring(11)
   const target = 'en'
   const [translation] = await translate.translate(untranslated, target);
   console.log(`Text: ${text}`);
   console.log(`Translation: ${translation}`);
   bot.chat.send(channel, {body: translation})
-  */
+
 }
 
 async function main() {

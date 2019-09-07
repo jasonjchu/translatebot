@@ -1,13 +1,19 @@
-module.exports = {
-    chooseLanguage: function (bot, translate, message) {
-    },
-    requestLanguage: function (bot, message) {
-    }
-  };
+
 
 const Bot = require('keybase-bot')
 const {Translate} = require('@google-cloud/translate');
-function chooseLanguage(bot, translate, message){
+
+function chooseLanguage(bot, message){
+    
+
+}
+
+function requestLanguage(bot, message){
+    
+}
+
+module.exports = {
+    chooseLanguage: function (bot, translate, message) {
     bot = new Bot()
     const channel = message.channel
     const text = message.content.text.body
@@ -18,7 +24,7 @@ function chooseLanguage(bot, translate, message){
         case ":flag-gb:":
             lang = "en"
           break;
-        case ":flag-az:":
+        case ":flag-af:":
             lang = "af"
           break;
         case ":flag-al:":
@@ -27,20 +33,25 @@ function chooseLanguage(bot, translate, message){
         case ":flag-eg:":
             lang = "ar"
             break;
+        case "flag-az":
+            lang = "az"
         default:
           lang = "en"
           break;
       } 
 
-}
-
-function requestLanguage(bot, message){
-    console.log("salad")
-    const messageId = message.Id
-    console.log(messageId)
-    var flags = [":flag-gb:", ":flag-az:", ":flag-al:", "flag-eg"]
-    var i;
-    for(i = 0; i<flags.length; i++){
-        bot.chat.react(channel, messageId, flags[i]).then(() => console.log('saladdddd'))
+      console.log(lang)
+    },
+    requestLanguage: function (bot, message) {
+        console.log("salad") 
+        const messageId = message.id
+        console.log(messageId)
+        const channel = message.channel
+        var flags = [":flag-gb:", ":flag-af:", ":flag-al:", ":flag-eg:", ":flag-az:"]
+        var i;
+        bot.chat.send(channel, {body: "Select a language by clicking a flag"})
+        for(i = 0; i<flags.length; i++){
+             bot.chat.react(channel, messageId, flags[i]).then(() => console.log('saladdddd'))
+        }
     }
-}
+  };
