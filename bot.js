@@ -13,17 +13,11 @@ const onMessage = async (message) => {
   const channel = message.channel
   const text = message.content.text.body
   const target = 'en'
-  if (text.substring(0,11) == '/translate ') {
-    const untranslated = text.substring(11, text.length)
-    
-    if(untranslated.length > 0) {
-      const [translation] = await translate.translate(untranslated, target);
+  const [translation] = await translate.translate(untranslated, target);
 
-      console.log(`Text: ${text}`);
-      console.log(`Translation: ${translation}`);
-      bot.chat.send(channel, {body: translation})
-    }
-  }
+  console.log(`Text: ${text}`);
+  console.log(`Translation: ${translation}`);
+  bot.chat.send(channel, {body: translation})
 }
 
 async function main() {
