@@ -1,22 +1,8 @@
-
-
 const Bot = require('keybase-bot')
 const {Translate} = require('@google-cloud/translate');
 
-function chooseLanguage(bot, message){
-    
-
-}
-
-function requestLanguage(bot, message){
-    
-}
-
 module.exports = {
     chooseLanguage: function (bot, translate, message) {
-    bot = new Bot()
-    const channel = message.channel
-    const text = message.content.text.body
     const reaction = message.content.reaction.b
 
     var lang = "en"
