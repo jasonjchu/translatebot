@@ -1,16 +1,32 @@
+// required environment variables
+const gcpProjectId = process.env.GCP_PROJ_ID
+const username = process.env.USER_NAME
+const paperkey = process.env.PAPERKEY
+
 const Bot = require('keybase-bot')
+const {Translate} = require('@google-cloud/translate');
 
 const bot = new Bot()
+const translate = new Translate({gcpProjectId})
 
-const onMessage = message => {
+const onMessage = async (message) => {
   const channel = message.channel
-  bot.chat.send(channel, {body: 'Message received.'})
+  const text = message.content.text.body
+  const target = 'en'
+  if (text.substring(0,11) == '/translate ') {
+    const untranslated = text.substring(11, text.length)
+    
+    if(untranslated.length > 0) {
+      const [translation] = await translate.translate(untranslated, target);
+
+      console.log(`Text: ${text}`);
+      console.log(`Translation: ${translation}`);
+      bot.chat.send(channel, {body: translation})
+    }
+  }
 }
 
-function main() {
-  const username = process.env.USER_NAME
-  const paperkey = process.env.PAPERKEY
-
+async function main() {
   bot
     .init(username, paperkey, {verbose: false})
     .then(() => {
