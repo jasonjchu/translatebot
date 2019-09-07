@@ -3,7 +3,8 @@ const {Translate} = require('@google-cloud/translate');
 
 module.exports = {
     chooseLanguage: function (bot, translate, message) {
-      const reaction = message.content.reaction.b
+    console.log("h")
+    const reaction = message.content.reaction.b
 
       var lang = "en"
       switch(reaction) {
@@ -66,7 +67,7 @@ module.exports = {
           break;
       } 
 
-      bot.chat.send()
+      console.log(lang)
     },
     requestLanguage: function (bot, message) {
         console.log("salad") 
