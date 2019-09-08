@@ -72,13 +72,13 @@ module.exports = {
     },
     requestLanguage: function (bot, message) {
         const messageId = message.id
-        var channel = message.sender.username + "," + username
+        var ch = message.sender.username + "," + username
         console.log(messageId)
         var flags = [":flag-gb:", ":flag-af:", ":flag-al:", ":flag-eg:", ":flag-az:", ":flag-ie:", ":flag-it:", ":flag-jp:", ":flag-kr:", ":flag-by:", ":flag-bg:", ":flag-ad:", ":flag-cn:", ":flag-hk:", ":flag-fr:", ":flag-de:", ":flag-gr:", ":flag-mx:", ":flag-rs:", ":flag-ru:"]
         var i;
-        bot.chat.send(channel, {body: "Select a language by clicking a flag"})
+        bot.chat.send(ch, {body: "Select a language by clicking a flag"})
         for(i = 0; i<flags.length; i++){
-            bot.chat.react(channel, messageId+1, flags[i]).then(() => console.log('Reaction Sent')) 
+            bot.chat.react(ch, messageId+1, flags[i]).then(() => console.log('Reaction Sent')) 
         }
     }
   };
